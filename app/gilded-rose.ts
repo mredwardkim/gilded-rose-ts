@@ -43,7 +43,7 @@ export class Item {
         // do nothing
         break;
       default:
-        this.updateStandard();
+        this.updateDefault();
     }
   }
 
@@ -54,7 +54,7 @@ export class Item {
     return Math.max(MIN_QUALITY, Math.min(MAX_QUALITY, this.quality + amount));
   }
 
-  private updateStandard() {
+  private updateDefault() {
     const updateAmount = this.sellIn < 0 ? -2 : -1;
     this.quality = this.getUpdatedQuality(updateAmount);
   }
