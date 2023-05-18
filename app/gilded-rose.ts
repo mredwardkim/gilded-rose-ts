@@ -73,19 +73,18 @@ export class GildedRose {
       switch (item.name) {
         case ItemTypes.BRIE:
           updateBrie(item);
-          continue;
+          break;
         case ItemTypes.BSPASS:
           updatePass(item);
-          continue;
+          break;
         case ItemTypes.CONJURED:
           updateConjured(item);
-          continue;
+          break;
         case ItemTypes.SULFURAS:
           updateSulfuras(item);
-          continue;
+          break;
         default:
           updateStandard(item);
-          continue;
       }
     }
 
