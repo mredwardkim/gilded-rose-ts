@@ -17,7 +17,7 @@ export class Item {
     this.quality = quality;
   }
 
-  updateSellin() {
+  updateSellIn() {
     switch (this.name) {
       case ItemTypes.SULFURAS:
         // do nothing
@@ -91,7 +91,7 @@ export class GildedRose {
 
   updateQuality() {
     for (const item of this.items) {
-      item.updateSellin();
+      item.updateSellIn();
       item.updateQuality();
     }
 
