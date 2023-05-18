@@ -18,7 +18,7 @@ export const ItemTypes = {
   SULFURAS: "Sulfuras, Hand of Ragnaros",
 };
 
-function updateQuality(item: Item, amount: number) {
+function getUpdatedQuality(item: Item, amount: number) {
   const MIN_QUALITY = 0;
   const MAX_QUALITY = 50;
 
@@ -27,40 +27,33 @@ function updateQuality(item: Item, amount: number) {
 
 function updateStandard(item: Item) {
   item.sellIn--;
-  item.quality = updateQuality(item, -1);
-  if (item.sellIn < 0) {
-    item.quality = updateQuality(item, -1);
-  }
+  const updateAmount = item.sellIn < 0 ? -2 : -1;
+  item.quality = getUpdatedQuality(item, updateAmount);
 }
 
 function updateConjured(item: Item) {
   item.sellIn--;
-  item.quality = updateQuality(item, -2);
-  if (item.sellIn < 0) {
-    item.quality = updateQuality(item, -2);
-  }
+  const updateAmount = item.sellIn < 0 ? -4 : -2;
+  item.quality = getUpdatedQuality(item, updateAmount);
 }
 
 function updateBrie(item: Item) {
   item.sellIn--;
-  item.quality = updateQuality(item, 1);
-  if (item.sellIn < 0) {
-    item.quality = updateQuality(item, 1);
-  }
+  const updateAmount = item.sellIn < 0 ? 2 : 1;
+  item.quality = getUpdatedQuality(item, updateAmount);
 }
 
 function updatePass(item: Item) {
-  if (item.sellIn <= 5) {
-    item.quality = updateQuality(item, 3);
-  } else if (item.sellIn <= 10) {
-    item.quality = updateQuality(item, 2);
-  } else {
-    item.quality = updateQuality(item, 1);
-  }
-
   item.sellIn--;
+
   if (item.sellIn < 0) {
     item.quality = 0;
+  } else if (item.sellIn < 5) {
+    item.quality = getUpdatedQuality(item, 3);
+  } else if (item.sellIn < 10) {
+    item.quality = getUpdatedQuality(item, 2);
+  } else {
+    item.quality = getUpdatedQuality(item, 1);
   }
 }
 
