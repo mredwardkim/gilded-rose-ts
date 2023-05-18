@@ -1,3 +1,11 @@
+export const ItemTypes = {
+  BRIE: "Aged Brie",
+  PASS: "Backstage passes to a TAFKAL80ETC concert",
+  CONJURED: "Conjured",
+  STANDARD: "Standard",
+  SULFURAS: "Sulfuras, Hand of Ragnaros",
+};
+
 export class Item {
   name: string;
   sellIn: number;
@@ -8,57 +16,68 @@ export class Item {
     this.sellIn = sellIn;
     this.quality = quality;
   }
-}
 
-export const ItemTypes = {
-  BRIE: "Aged Brie",
-  BSPASS: "Backstage passes to a TAFKAL80ETC concert",
-  CONJURED: "Conjured",
-  STANDARD: "Standard",
-  SULFURAS: "Sulfuras, Hand of Ragnaros",
-};
-
-function getUpdatedQuality(item: Item, amount: number) {
-  const MIN_QUALITY = 0;
-  const MAX_QUALITY = 50;
-
-  return Math.max(MIN_QUALITY, Math.min(MAX_QUALITY, item.quality + amount));
-}
-
-function updateStandard(item: Item) {
-  item.sellIn--;
-  const updateAmount = item.sellIn < 0 ? -2 : -1;
-  item.quality = getUpdatedQuality(item, updateAmount);
-}
-
-function updateConjured(item: Item) {
-  item.sellIn--;
-  const updateAmount = item.sellIn < 0 ? -4 : -2;
-  item.quality = getUpdatedQuality(item, updateAmount);
-}
-
-function updateBrie(item: Item) {
-  item.sellIn--;
-  const updateAmount = item.sellIn < 0 ? 2 : 1;
-  item.quality = getUpdatedQuality(item, updateAmount);
-}
-
-function updatePass(item: Item) {
-  item.sellIn--;
-
-  if (item.sellIn < 0) {
-    item.quality = 0;
-  } else if (item.sellIn < 5) {
-    item.quality = getUpdatedQuality(item, 3);
-  } else if (item.sellIn < 10) {
-    item.quality = getUpdatedQuality(item, 2);
-  } else {
-    item.quality = getUpdatedQuality(item, 1);
+  updateQuality() {
+    switch (this.name) {
+      case ItemTypes.BRIE:
+        this.updateBrie();
+        break;
+      case ItemTypes.PASS:
+        this.updatePass();
+        break;
+      case ItemTypes.CONJURED:
+        this.updateConjured();
+        break;
+      case ItemTypes.SULFURAS:
+        this.updateSulfuras();
+        break;
+      default:
+        this.updateStandard();
+    }
   }
-}
 
-function updateSulfuras(item: Item) {
-  // do nothing
+  private getUpdatedQuality(amount: number) {
+    const MIN_QUALITY = 0;
+    const MAX_QUALITY = 50;
+
+    return Math.max(MIN_QUALITY, Math.min(MAX_QUALITY, this.quality + amount));
+  }
+
+  private updateStandard() {
+    this.sellIn--;
+    const updateAmount = this.sellIn < 0 ? -2 : -1;
+    this.quality = this.getUpdatedQuality(updateAmount);
+  }
+
+  private updateConjured() {
+    this.sellIn--;
+    const updateAmount = this.sellIn < 0 ? -4 : -2;
+    this.quality = this.getUpdatedQuality(updateAmount);
+  }
+
+  private updateBrie() {
+    this.sellIn--;
+    const updateAmount = this.sellIn < 0 ? 2 : 1;
+    this.quality = this.getUpdatedQuality(updateAmount);
+  }
+
+  private updatePass() {
+    this.sellIn--;
+
+    if (this.sellIn < 0) {
+      this.quality = 0;
+    } else if (this.sellIn < 5) {
+      this.quality = this.getUpdatedQuality(3);
+    } else if (this.sellIn < 10) {
+      this.quality = this.getUpdatedQuality(2);
+    } else {
+      this.quality = this.getUpdatedQuality(1);
+    }
+  }
+
+  private updateSulfuras() {
+    // do nothing
+  }
 }
 
 export class GildedRose {
@@ -70,22 +89,7 @@ export class GildedRose {
 
   updateQuality() {
     for (const item of this.items) {
-      switch (item.name) {
-        case ItemTypes.BRIE:
-          updateBrie(item);
-          break;
-        case ItemTypes.BSPASS:
-          updatePass(item);
-          break;
-        case ItemTypes.CONJURED:
-          updateConjured(item);
-          break;
-        case ItemTypes.SULFURAS:
-          updateSulfuras(item);
-          break;
-        default:
-          updateStandard(item);
-      }
+      item.updateQuality();
     }
 
     return this.items;

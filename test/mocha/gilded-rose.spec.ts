@@ -12,7 +12,7 @@ describe("Generate test permutations", () => {
   const testGroups = [
     [ItemTypes.STANDARD, [-1, 0, 1], DEFAULT_QUALITY_VALUES],
     [ItemTypes.BRIE, [-1, 0, 1], DEFAULT_QUALITY_VALUES],
-    [ItemTypes.BSPASS, [-1, 0, 1, 5, 9, 10, 12], DEFAULT_QUALITY_VALUES],
+    [ItemTypes.PASS, [-1, 0, 1, 5, 9, 10, 12], DEFAULT_QUALITY_VALUES],
     [ItemTypes.CONJURED, [-1, 0, 1], DEFAULT_QUALITY_VALUES],
     [ItemTypes.SULFURAS, [-1, 0, 1], [80]],
   ];
