@@ -17,6 +17,17 @@ export class Item {
     this.quality = quality;
   }
 
+  updateSellin() {
+    switch (this.name) {
+      case ItemTypes.SULFURAS:
+        // do nothing
+        break;
+      default:
+        this.sellIn--;
+        break;
+    }
+  }
+
   updateQuality() {
     switch (this.name) {
       case ItemTypes.BRIE:
@@ -29,7 +40,7 @@ export class Item {
         this.updateConjured();
         break;
       case ItemTypes.SULFURAS:
-        this.updateSulfuras();
+        // do nothing
         break;
       default:
         this.updateStandard();
@@ -44,26 +55,21 @@ export class Item {
   }
 
   private updateStandard() {
-    this.sellIn--;
     const updateAmount = this.sellIn < 0 ? -2 : -1;
     this.quality = this.getUpdatedQuality(updateAmount);
   }
 
   private updateConjured() {
-    this.sellIn--;
     const updateAmount = this.sellIn < 0 ? -4 : -2;
     this.quality = this.getUpdatedQuality(updateAmount);
   }
 
   private updateBrie() {
-    this.sellIn--;
     const updateAmount = this.sellIn < 0 ? 2 : 1;
     this.quality = this.getUpdatedQuality(updateAmount);
   }
 
   private updatePass() {
-    this.sellIn--;
-
     if (this.sellIn < 0) {
       this.quality = 0;
     } else if (this.sellIn < 5) {
@@ -73,10 +79,6 @@ export class Item {
     } else {
       this.quality = this.getUpdatedQuality(1);
     }
-  }
-
-  private updateSulfuras() {
-    // do nothing
   }
 }
 
@@ -89,6 +91,7 @@ export class GildedRose {
 
   updateQuality() {
     for (const item of this.items) {
+      item.updateSellin();
       item.updateQuality();
     }
 
