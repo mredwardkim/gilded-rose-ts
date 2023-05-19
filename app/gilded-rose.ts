@@ -1,7 +1,7 @@
 export const ItemTypes = {
   BRIE: "Aged Brie",
-  PASS: "Backstage passes to a TAFKAL80ETC concert",
   CONJURED: "Conjured",
+  PASS: "Backstage passes to a TAFKAL80ETC concert",
   STANDARD: "Standard",
   SULFURAS: "Sulfuras, Hand of Ragnaros",
 };
@@ -47,11 +47,14 @@ export class Item {
     }
   }
 
-  private getUpdatedQuality(amount: number) {
+  private getUpdatedQuality(updateAmount: number) {
     const MIN_QUALITY = 0;
     const MAX_QUALITY = 50;
 
-    return Math.max(MIN_QUALITY, Math.min(MAX_QUALITY, this.quality + amount));
+    return Math.max(
+      MIN_QUALITY,
+      Math.min(MAX_QUALITY, this.quality + updateAmount)
+    );
   }
 
   private updateDefault() {
